@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Finan.API.Persistence")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+70190e38fa3c6175b834232dfea2da3cb5ded601")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+417c21ecb3af241a36f878ead2ceed3b1bc15d26")]
 [assembly: System.Reflection.AssemblyProductAttribute("Finan.API.Persistence")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Finan.API.Persistence")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

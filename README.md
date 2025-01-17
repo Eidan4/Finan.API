@@ -1,60 +1,137 @@
-# Xolit API - Gestión de Reservas
+# Database Management and Setup Guide
 
-## Tecnologías Utilizadas
-
-### **Backend**
-- **.NET 8.0**: Framework principal para el desarrollo del backend, asegurando alto rendimiento y escalabilidad.
-- **Entity Framework Core**: ORM para interactuar con la base de datos de manera sencilla y eficiente.
-- **Pomelo.EntityFrameworkCore.MySql**: Proveedor específico para bases de datos MySQL.
-- **NUnit y Moq**: Herramientas para escribir y ejecutar pruebas unitarias, simulando comportamientos y dependencias.
-- **MediatR**: Implementación del patrón CQRS para separar lógica de comandos y consultas.
-- **AutoMapper**: Facilita el mapeo entre entidades y DTOs.
+### ****Overview****
+This document provides the necessary details and commands to create, configure, and manage the database for the system, including tables for Students, Courses, Grades, and Teachers.
 
 ---
 
-## Características Principales
-
-### **Usuarios**
-- **Creación de Usuarios**: Endpoint para registrar nuevos usuarios en el sistema.
-- **Inicio de Sesión**: Validación segura de credenciales para autenticación.
-
-### **Espacios**
-- **Gestión de Espacios**: Creación y eliminación de espacios disponibles para reservas.
-- **Validaciones de Solapamientos**: Asegura que las reservas no se superpongan en el mismo espacio.
-
-### **Reservas**
-- **Creación de Reservas**: Incluye validaciones de horarios, duraciones mínimas/máximas y solapamientos.
-- **Consulta de Horarios Disponibles**: Permite verificar intervalos de tiempo libres para reservas en un espacio específico.
-- **Historial de Reservas por Usuario**: Consultar las reservas realizadas por un usuario.
-
-### **Pruebas Unitarias**
-- **Cobertura Amplia**: Tests para los comandos y consultas principales del sistema.
-- **Mocking**: Uso de Moq para simular interacciones con el repositorio y servicios externos.
+### ****Technologies Utilized****
+- **MySQL**: Database management system.
+- **InnoDB**: Storage engine for efficient transaction handling.
+- **UTF8MB4**: Character set to support a wide range of characters and emojis.
 
 ---
 
-## Instalación
+### ****Tables and Schemas****
 
-### **Requisitos Previos**
-1. Tener instalado **.NET SDK 8.0**.
-2. Contar con una instancia de base de datos MySQL.
-3. Configurar correctamente las variables de entorno necesarias para la conexión a la base de datos.
+#### 1. **Students Table**
+This table stores the main data about students.
 
-### **Pasos de Instalación**
-1. **Clonar el repositorio:**
-   ```bash
-   git clone url-repositorio
-   cd Xolit.API.Reservation
-### **Pasos de Instalación**
-1. **Restaurar paquetes:**
-   ```bash
-   dotnet restore
-### **Configurar la base de datos**
+```sql
+CREATE TABLE `students` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `Title` varchar(50) NOT NULL,
+  `FirstName` varchar(100) NOT NULL,
+  `LastName` varchar(100) NOT NULL,
+  `Gender` varchar(10) DEFAULT NULL,
+  `Email` varchar(150) DEFAULT NULL,
+  `Phone` varchar(20) DEFAULT NULL,
+  `Picture` varchar(500) DEFAULT NULL,
+  `CreatedDate` datetime NOT NULL DEFAULT current_timestamp(),
+  `UpdatedDate` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Documents` varchar(500) NOT NULL,
+  `Password` varchar(500) NOT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+```
+
+---
+
+#### 2. **Courses Table**
+Contains information about courses available for students.
+
+```sql
+CREATE TABLE `courses` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(100) NOT NULL,
+  `Description` text DEFAULT NULL,
+  `Credits` int(11) NOT NULL,
+  `CreatedDate` datetime NOT NULL DEFAULT current_timestamp(),
+  `UpdatedDate` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+```
+
+---
+
+#### 3. **Grades Table**
+Links students to their respective courses and grades.
+
+```sql
+CREATE TABLE `grades` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `StudentId` int(11) NOT NULL,
+  `CourseId` int(11) NOT NULL,
+  `Grade` decimal(5,2) NOT NULL,
+  `CreatedDate` datetime NOT NULL DEFAULT current_timestamp(),
+  `UpdatedDate` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`Id`),
+  KEY `StudentId` (`StudentId`),
+  KEY `CourseId` (`CourseId`),
+  CONSTRAINT `grades_ibfk_1` FOREIGN KEY (`StudentId`) REFERENCES `students` (`Id`),
+  CONSTRAINT `grades_ibfk_2` FOREIGN KEY (`CourseId`) REFERENCES `courses` (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+```
+
+---
+
+#### 4. **Teachers Table**
+Stores teacher information.
+
+```sql
+CREATE TABLE `teachers` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `FirstName` varchar(100) NOT NULL,
+  `LastName` varchar(100) NOT NULL,
+  `Email` varchar(150) DEFAULT NULL,
+  `Phone` varchar(20) DEFAULT NULL,
+  `CreatedDate` datetime NOT NULL DEFAULT current_timestamp(),
+  `UpdatedDate` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+```
+
+---
+
+### ****Setup Instructions****
+
+#### Prerequisites
+1. **MySQL Server**: Ensure MySQL Server is installed and running.
+2. **Database Access**: You must have access to create and manage tables in the desired database.
+
+#### Steps to Set Up the Database
+
+1. **Create the Database**:
+   ```sql
+   CREATE DATABASE SchoolDB CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+   USE SchoolDB;
+   ```
+
+2. **Run Table Creation Scripts**:
+   Execute the provided SQL scripts in the following order:
+   - Students Table
+   - Courses Table
+   - Teachers Table
+   - Grades Table
+
+3. **Verify Foreign Key Constraints**:
+   Ensure that the foreign key relationships in the `grades` table are correctly linked to `students` and `courses`.
+
+#### Example Configuration
+For applications interacting with the database, include a connection string like the following:
+
+```json
 {
-    "ConnectionStrings": {
-        "DefaultConnection": "Server=<servidor>;Database=<base_de_datos>;User=<usuario>;Password=<contraseña>;"
-    }
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost;Database=SchoolDB;User=root;Password=password;"
+  }
 }
+```
 
-### **Ejecutar el proyecto**
-dotnet run
+---
+
+### ****Notes****
+- All timestamps (`CreatedDate` and `UpdatedDate`) are automatically managed by the database.
+- Make sure the `utf8mb4` character set is supported by your MySQL version to ensure compatibility with all characters.
+- Always back up your database before making changes.
+

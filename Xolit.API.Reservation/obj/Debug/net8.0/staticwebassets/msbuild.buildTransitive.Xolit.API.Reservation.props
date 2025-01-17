@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\Xolit.API.Reservation.props" />
-</Project>
