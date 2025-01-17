@@ -123,7 +123,7 @@ For applications interacting with the database, include a connection string like
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=SchoolDB;User=root;Password=password;"
+    "DefaultConnection": "Server=127.0.0.1;Port=3306;Database=finan;User=root;Password=;"
   }
 }
 ```
