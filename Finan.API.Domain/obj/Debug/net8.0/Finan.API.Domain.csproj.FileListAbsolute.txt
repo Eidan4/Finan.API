@@ -1,0 +1,12 @@
+C:\Users\eidan\Documents\Finan.API\Finan.API.Domain\bin\Debug\net8.0\Finan.API.Domain.deps.json
+C:\Users\eidan\Documents\Finan.API\Finan.API.Domain\bin\Debug\net8.0\Finan.API.Domain.dll
+C:\Users\eidan\Documents\Finan.API\Finan.API.Domain\bin\Debug\net8.0\Finan.API.Domain.pdb
+C:\Users\eidan\Documents\Finan.API\Finan.API.Domain\obj\Debug\net8.0\Finan.API.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\eidan\Documents\Finan.API\Finan.API.Domain\obj\Debug\net8.0\Finan.API.Domain.AssemblyInfoInputs.cache
+C:\Users\eidan\Documents\Finan.API\Finan.API.Domain\obj\Debug\net8.0\Finan.API.Domain.AssemblyInfo.cs
+C:\Users\eidan\Documents\Finan.API\Finan.API.Domain\obj\Debug\net8.0\Finan.API.Domain.csproj.CoreCompileInputs.cache
+C:\Users\eidan\Documents\Finan.API\Finan.API.Domain\obj\Debug\net8.0\Finan.API.Domain.sourcelink.json
+C:\Users\eidan\Documents\Finan.API\Finan.API.Domain\obj\Debug\net8.0\Finan.API.Domain.dll
+C:\Users\eidan\Documents\Finan.API\Finan.API.Domain\obj\Debug\net8.0\refint\Finan.API.Domain.dll
+C:\Users\eidan\Documents\Finan.API\Finan.API.Domain\obj\Debug\net8.0\Finan.API.Domain.pdb
+C:\Users\eidan\Documents\Finan.API\Finan.API.Domain\obj\Debug\net8.0\ref\Finan.API.Domain.dll

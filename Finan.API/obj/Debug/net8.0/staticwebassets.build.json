@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "tF+sHnebqIw/3zfLOnfGkRPCJBF6pi27uLpgWEQD5ug=",
+  "Source": "Finan.API",
+  "BasePath": "_content/Finan.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
