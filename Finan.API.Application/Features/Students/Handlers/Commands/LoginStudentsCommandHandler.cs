@@ -30,7 +30,8 @@ public class LoginStudentsCommandHandler : IRequestHandler<LoginStudentsCommand,
 
         try
         {
-            var student = await _unitOfWork.Students.GetByEmailAsync(request.Email);
+            var students = await _unitOfWork.Students.FindAsync(u => u.Email == request.Email);
+            var student = students.FirstOrDefault();
 
             if (student == null || student.Password != request.Password)
             {
@@ -60,15 +61,22 @@ public class LoginStudentsCommandHandler : IRequestHandler<LoginStudentsCommand,
 
     private string GenerateJwtToken(StudentsEntity student)
     {
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+        var key = _configuration["Jwt:Key"];
+
+        if (string.IsNullOrEmpty(key) || Encoding.UTF8.GetBytes(key).Length < 32)
+        {
+            throw new ArgumentOutOfRangeException("Jwt:Key", "The key must be at least 256 bits (32 characters).");
+        }
+
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
         var claims = new[]
         {
-            new Claim(JwtRegisteredClaimNames.Sub, student.Email),
-            new Claim("StudentId", student.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
+        new Claim(JwtRegisteredClaimNames.Sub, student.Email),
+        new Claim("StudentId", student.Id.ToString()),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+    };
 
         var token = new JwtSecurityToken(
             issuer: _configuration["Jwt:Issuer"],
